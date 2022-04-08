@@ -1,0 +1,19 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import FFXIVMacroChatModeConverter from "../components/FFXIVMacroChatModeConverter";
+---
+<MainLayout title="FFXIV Toolkit">
+  <div class="md:container mx-auto p-4">
+    <article>
+      <header>
+        <h2 class="text-xl font-bold">Chat Macro Converter</h2>
+      </header>
+
+      <section>
+        <p class="py-2 leading-relaxed">Change the chat mode of a chat macro (for example, change a raid macro to always go into party chat)</p>
+      </section>
+
+      <FFXIVMacroChatModeConverter client:load />
+    </article>
+  </div>
+</MainLayout>
