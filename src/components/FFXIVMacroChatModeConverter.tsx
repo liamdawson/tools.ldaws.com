@@ -9,11 +9,32 @@ const defaultModeOptions = [
   { name: "Custom", mode: "custom" },
 ];
 
-function convert(input: string, mode?: string) {
+const timestampPrefix = String.raw`(\[\d+:\d+] ?)`;
+const playerNameFormat = String.raw`[A-Z][A-z']*[a-z] [A-Z][A-z']*[a-z]`;
+const fcChatPrefix = String.raw`\[FC]<${playerNameFormat}>`;
+const lsChatPrefix = String.raw`\[\d+]<${playerNameFormat}>`;
+const cwlsChatPrefix = String.raw`\[CWLS\d+]<${playerNameFormat}>`;
+const partyChatPrefix = String.raw`\([^\)]?${playerNameFormat}\)`;
+const tellChatPrefix = String.raw`(?:>> ${playerNameFormat}:|${playerNameFormat} >>)`;
+const localChatPrefix = String.raw`${playerNameFormat}:`;
+const noviceChatPrefix = String.raw`\[Novice] ${playerNameFormat}:`;
+
+const chatPrefixRegex = new RegExp(
+  `^${timestampPrefix}?(?:${fcChatPrefix}|${lsChatPrefix}|${cwlsChatPrefix}|${partyChatPrefix}|${tellChatPrefix}|${localChatPrefix}|${noviceChatPrefix}) `
+);
+
+function transformLine(line: string, strip?: boolean) {
+  return (strip ? line.replace(chatPrefixRegex, "") : line).replace(
+    /^\/[A-z]+ /,
+    ""
+  );
+}
+
+function convert(input: string, mode?: string, strip?: boolean) {
   return input
     .split(/\r?\n/)
     .filter((line) => line)
-    .map((line) => line.replace(/^\/[a-z]+ /, ""))
+    .map((line) => transformLine(line, strip))
     .map((line) => `${mode ? mode + " " : ""}${line}`)
     .join("\n");
 }
@@ -23,26 +44,27 @@ export default function FFXIVMacroChatModeConverter() {
   const [targetMode, setTargetMode] = useState("/p");
   const [customMode, setCustomMode] = useState("");
   const [macroText, setMacroText] = useState("");
+  const [stripPrefixes, setStripPrefixes] = useState(false);
 
   return (
-    <section class="lg:columns-2 gap-8">
-      <div class="break-inside-avoid-column">
-        <h3 class="text-lg font-bold pb-2">Original</h3>
+    <section className="lg:columns-2 gap-8">
+      <div className="break-inside-avoid-column">
+        <h3 className="text-lg font-bold pb-2">Original</h3>
         <textarea
           value={macroText}
           placeholder="Input macro here..."
-          class="block bg-slate-700 w-full"
+          className="block bg-slate-700 w-full"
           rows="15"
           onChange={(e) => setMacroText(e.target.value)}
         ></textarea>
         <div>
           {defaultModeOptions.map(({ name, mode }) => (
-            <label key={name} class="px-2 py-1 inline-block">
+            <label key={name} className="px-2 py-1 inline-flex items-center">
               <input
                 type="radio"
                 name="selectedChatMode"
                 checked={name === selectedModeName}
-                class="mr-1"
+                className="mr-1"
                 onChange={() => {
                   setSelectedModeName(name);
                   setTargetMode(mode !== "custom" ? mode : customMode);
@@ -55,7 +77,7 @@ export default function FFXIVMacroChatModeConverter() {
                   type="text"
                   placeholder="Custom..."
                   value={customMode}
-                  class="bg-slate-700 p-0 w-24"
+                  className="bg-slate-700 p-0 w-24"
                   onChange={(e) => {
                     setCustomMode(e.target.value);
                     setTargetMode(e.target.value);
@@ -65,15 +87,25 @@ export default function FFXIVMacroChatModeConverter() {
               )}
             </label>
           ))}
+          <br />
+          <label className="px-2 py-1 inline-flex items-center">
+            <input
+              type="checkbox"
+              value={stripPrefixes}
+              className="mr-1"
+              onChange={(e) => setStripPrefixes(e.target.checked)}
+            />
+            Remove in-game chat info
+          </label>
         </div>
       </div>
 
-      <div class="break-inside-avoid-column">
-        <h3 class="text-lg font-bold pb-2">Result</h3>
+      <div className="break-inside-avoid-column">
+        <h3 className="text-lg font-bold pb-2">Result</h3>
         <textarea
-          value={convert(macroText, targetMode)}
+          value={convert(macroText, targetMode, stripPrefixes)}
           placeholder="Result appears here..."
-          class="block bg-slate-700 w-full"
+          className="block bg-slate-700 w-full"
           readOnly={true}
           rows="15"
         ></textarea>
