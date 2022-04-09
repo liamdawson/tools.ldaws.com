@@ -95,7 +95,12 @@ export default function FFXIVMacroChatModeConverter() {
               className="mr-1"
               onChange={(e) => setStripPrefixes(e.target.checked)}
             />
-            Remove in-game chat info
+            <div>
+              Remove in-game chat info
+              <small className="ml-2 py-0.5 px-2 bg-red-900 text-sm rounded-xl">
+                (Experimental)
+              </small>
+            </div>
           </label>
         </div>
       </div>
