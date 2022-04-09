@@ -48,7 +48,7 @@ export default function FFXIVMacroChatModeConverter() {
 
   return (
     <section className="lg:columns-2 gap-8">
-      <div className="break-inside-avoid-column">
+      <div className="break-inside-avoid-column py-6 md:py-4 lg:py-2">
         <h3 className="text-lg font-bold pb-2">Original</h3>
         <textarea
           value={macroText}
@@ -105,7 +105,7 @@ export default function FFXIVMacroChatModeConverter() {
         </div>
       </div>
 
-      <div className="break-inside-avoid-column">
+      <div className="break-inside-avoid-column py-6 md:py-4 lg:py-2">
         <h3 className="text-lg font-bold pb-2">Result</h3>
         <textarea
           value={convert(macroText, targetMode, stripPrefixes)}

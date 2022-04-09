@@ -1,6 +1,7 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import FFXIVMacroChatModeConverter from "../components/FFXIVMacroChatModeConverter";
+import Contact from "../components/Contact";
 ---
 <MainLayout title="FFXIV Toolkit">
   <div class="md:container mx-auto p-4">
@@ -14,6 +15,8 @@ import FFXIVMacroChatModeConverter from "../components/FFXIVMacroChatModeConvert
       </section>
 
       <FFXIVMacroChatModeConverter client:load />
+
+      <Contact />
     </article>
   </div>
 </MainLayout>
