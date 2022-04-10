@@ -1,4 +1,8 @@
-import { RiDiscordFill, RiTwitterFill, RiMailFill } from "react-icons/ri";
+import {
+  RiDiscordFill,
+  RiTwitterFill,
+  RiMailFill,
+} from "react-icons/ri/index.js";
 
 export default function Contact() {
   return (
