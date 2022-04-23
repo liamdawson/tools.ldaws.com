@@ -1,0 +1,20 @@
+---
+import '../styles/global.css';
+
+const props = Astro.props;
+const destination = props.destination;
+---
+<html lang={props.content?.lang || 'en'}>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Redirecting...</title>
+
+    <meta http-equiv="refresh" content={ `0; url=${destination}` } />
+</head>
+<body class="min-w-screen min-h-screen bg-gradient-to-t from-slate-900 to-slate-800 text-slate-100 flex flex-col items-center justify-center">
+	<p class="text-xl text-center">
+		<a href={ destination } class="underline text-blue-200">Click here</a> if you are not automatically redirected.
+	</p>
+</body>
+</html>

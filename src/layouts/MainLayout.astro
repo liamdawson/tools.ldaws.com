@@ -4,6 +4,8 @@ import { HomeIcon } from "@heroicons/react/outline/index.js";
 
 const props = Astro.props;
 const title = props.content?.title || props.title;
+const headExtra = props.head || null;
+
 ---
 <html lang={props.content?.lang || 'en'}>
 <head>
@@ -12,6 +14,8 @@ const title = props.content?.title || props.title;
 	<title>{title} - tools.ldaws.com</title>
 
 	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+	{headExtra}
 </head>
 <body class="min-w-screen min-h-screen bg-gradient-to-t from-slate-900 to-slate-800 text-slate-100 flex flex-col items-stretch">
 	<main class="py-8">

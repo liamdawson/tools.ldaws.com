@@ -39,7 +39,7 @@ function convert(input: string, mode?: string, strip?: boolean) {
     .join("\n");
 }
 
-export default function FFXIVMacroChatModeConverter() {
+export default function MacroChatModeConverter() {
   const [selectedModeName, setSelectedModeName] = useState("Party");
   const [targetMode, setTargetMode] = useState("/p");
   const [customMode, setCustomMode] = useState("");
